@@ -161,3 +161,6 @@ clean-all: $(CLEAN_ALL) clean
 $(CLEAN_ALL):
 	-@$(MAKE) -s -C $@ clean
 .PHONY: clean-all $(CLEAN_ALL)
+STUID = 221220000  # your student ID
+STUNAME = 张三     # your Chinese name
+
