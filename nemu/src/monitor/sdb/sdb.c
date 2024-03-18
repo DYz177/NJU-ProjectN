@@ -118,7 +118,7 @@ void sdb_mainloop() {
     char *str_end = str + strlen(str);
     /* extract the first token as the command */
     char *cmd = strtok(str, " ");
-    printf("字符串: %c\n", *cmd);
+    printf("字符串: %s\n", cmd);
     if (cmd == NULL) { continue; }
 
     /* treat the remaining string as the arguments,
