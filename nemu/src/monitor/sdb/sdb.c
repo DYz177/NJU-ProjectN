@@ -104,7 +104,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Execute by single step" , cmd_si },
-  { "info" ,    "Show information" , cmd_info },
+  { "info" ,    "Show information" , cmd_info }
   // { "x" ,       "Scan Memory" , cmd_x },
   // { "p" ,       "Evaluate the expression" , cmd_p },
   // { "w" ,       "Set watchpoint" , cmd_w },
