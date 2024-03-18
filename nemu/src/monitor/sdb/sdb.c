@@ -93,7 +93,35 @@ static int cmd_info(char *args) {
   return 0;
 }
 
-
+static int cmd_x(char *args) {
+  char *arg = strtok(NULL , " ");
+  int i = 0;
+  if (!arg) {
+    printf("Arguments parse failed.\n");
+    return 0;
+  } 
+  sscanf(arg , "%d" , &i);
+  arg = strtok(NULL , "\0");
+  if (!arg) {
+    printf("Arguments parse failed.\n");
+    return 0;
+  }
+  bool success = true;
+  vaddr_t addr = expr(arg , &success);
+  if (!success) {
+    printf("A syntax error in expression, near '%s'.\n" , arg);
+    return 0;
+  }
+  for (int j = 0 ; j < i ; j++) {
+    //printf("0x%x: %08x\n" , addr + 4 * j, vaddr_read(addr + 4 * j , 4));
+		printf("0x%lx: " , addr + 4 * j);
+		for (int k = 3 ; k >= 0 ; k--)
+			/* Little endian. */
+			printf("\033[32m%02lx \033[0m" , vaddr_read(addr + 4 * j + k, 1));		
+		printf("\n");
+	}
+  return 0;
+}
 
 static int cmd_help(char *args);
 
@@ -106,8 +134,8 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Execute by single step" , cmd_si },
-  { "info" ,    "Show information" , cmd_info }
-  // { "x" ,       "Scan Memory" , cmd_x },
+  { "info" ,    "Show information" , cmd_info },
+  { "x" ,       "Scan Memory" , cmd_x },
   // { "p" ,       "Evaluate the expression" , cmd_p },
   // { "w" ,       "Set watchpoint" , cmd_w },
   // { "d" ,       "Delete watchpoint" , cmd_d },
