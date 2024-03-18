@@ -100,8 +100,6 @@ static int cmd_x(char *args) {
     printf("Arguments parse failed.\n");
     return 0;
   } 
-  sscanf(arg , "%d" , &i);
-  arg = strtok(NULL , "\0");
   if (!arg) {
     printf("Arguments parse failed.\n");
     return 0;
