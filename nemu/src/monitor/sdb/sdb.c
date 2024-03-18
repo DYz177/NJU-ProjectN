@@ -18,6 +18,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include <memory/vaddr.h>
 
 static int is_batch_mode = false;
 
@@ -76,6 +77,11 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Execute by single step" , cmd_si },
+  // { "info" ,    "Show information" , cmd_info },
+  // { "x" ,       "Scan Memory" , cmd_x },
+  // { "p" ,       "Evaluate the expression" , cmd_p },
+  // { "w" ,       "Set watchpoint" , cmd_w },
+  // { "d" ,       "Delete watchpoint" , cmd_d },
 
 };
 
@@ -118,7 +124,7 @@ void sdb_mainloop() {
     char *str_end = str + strlen(str);
     /* extract the first token as the command */
     char *cmd = strtok(str, " ");
-    printf("字符串: %s\n", cmd);
+    // printf("字符串: %s\n", cmd);
     if (cmd == NULL) { continue; }
 
     /* treat the remaining string as the arguments,
