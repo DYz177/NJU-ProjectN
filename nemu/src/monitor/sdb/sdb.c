@@ -71,25 +71,9 @@ static int cmd_info(char *args) {
   char *arg = strtok(NULL , " ");
   if (!strcmp(arg , "r")) {
 		isa_reg_display();
-    //isa_csr_display();
+
   }
-  // else if (!strcmp(arg , "w"))
-  //   sdb_watchpoint_display();
-  // /* This branch should be removed. */
-  // else if (!strcmp(arg , "f")) {
-  //   char buf[64];
-  //   //getline(buf , 64 , 0);
-  //   bool success = true;
-  //   word_t val = expr(buf , &success);
-  //   if (!success) {
-  //     printf("Error\n");
-  //     return 0;
-  //   }
-  //   else printf("The val is %ld\n" , val);
-  // }
-  // else {
-  //   printf("Unknown info command: \"%s\".  Try \"help info\".\n" , arg);
-  // }
+
   return 0;
 }
 
