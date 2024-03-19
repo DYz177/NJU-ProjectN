@@ -216,7 +216,6 @@ static uint32_t domain_find(uint32_t p , uint32_t q) {
 			assert(0);
 		else if (tokens[i].type == TK_DEC || tokens[i].type == TK_REG
 					|| tokens[i].type == TK_HEX)
-			//TODO: Add more number type
 			continue;
 		else {
 			if (domain == -1 || tokens[domain].type <= tokens[i].type)
