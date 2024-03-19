@@ -123,6 +123,22 @@ static int cmd_x(char *args) {
   return 0;
 }
 
+static int cmd_p(char *args) {
+  char *arg = strtok(NULL , "\0");
+  if (!arg) {
+    printf("Missing Arguments. \n");
+    return 0;
+  }
+  bool success = true;
+  word_t val = expr(arg , &success);
+  if (!success) {
+    printf("A syntax error in expression, near '%s'.\n" , arg);
+    return 0;
+  }
+  printf("%-10s : 0x%-5lx\n" ,arg , val);
+  return 0;
+}
+
 
 static int cmd_help(char *args);
 
@@ -137,7 +153,7 @@ static struct {
   { "si", "Execute by single step" , cmd_si },
   { "info" ,    "Show information" , cmd_info },
   { "x" ,       "Scan Memory" , cmd_x },
-  // { "p" ,       "Evaluate the expression" , cmd_p },
+  { "p" ,       "Evaluate the expression" , cmd_p },
   // { "w" ,       "Set watchpoint" , cmd_w },
   // { "d" ,       "Delete watchpoint" , cmd_d },
 
