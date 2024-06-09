@@ -73,7 +73,27 @@ static int cmd_info(char *args) {
 		isa_reg_display();
 
   }
+<<<<<<< HEAD
 
+=======
+  else if (!strcmp(arg , "w"))
+    sdb_watchpoint_display();
+  /* This branch should be removed. */
+  else if (!strcmp(arg , "f")) {
+    char buf[64];
+    //getline(buf , 64 , 0);
+    bool success = true;
+    word_t val = expr(buf , &success);
+    if (!success) {
+      printf("Error\n");
+      return 0;
+    }
+    else printf("The val is %ld\n" , val);
+  }
+  else {
+    printf("Unknown info command: \"%s\".  Try \"help info\".\n" , arg);
+  }
+>>>>>>> pa1
   return 0;
 }
 
@@ -123,6 +143,51 @@ static int cmd_p(char *args) {
   return 0;
 }
 
+static int cmd_w(char *args) {
+  char *arg = strtok(NULL , "\0");
+  if (!arg) {
+    printf("Missing Arguments. \n");
+    return 0;
+  }
+  int wp_no = sdb_watchpoint_create(arg);
+  if (wp_no == -1) return 0;
+  printf("Hardware watchpoint %d: %s\n" , wp_no , arg);
+  return 0;
+}
+
+static int cmd_d(char *args) {
+  char *arg = strtok(NULL , "\0");
+  /* Default behavior indicates deleting all WPs */
+  if (!arg) {
+    printf("Delete all breakpoints? (y or n) ");
+    char buf[128];
+    if(!fgets(buf , sizeof(buf) , stdin)) {
+      puts("Invalid Arguments\n");
+      return 0;
+    }
+    /* It does not work on Linux */
+    //fflush(0);
+    //if(!scanf("%*[^\n] %*s"));
+    char c = buf[0];
+    switch(c) {
+      case 'Y':
+      case 'y':
+        sdb_watchpoint_delete_all();
+        return 0;
+      case 'N':
+      case 'n':
+        return 0;
+      default:
+        printf("\nUndefined choice %c\n" , c);
+        return 0;
+    }
+  }
+  int wp_no;
+  sscanf(arg , "%d" , &wp_no);
+  sdb_watchpoint_delete(wp_no);
+  return 0;
+}
+
 
 static int cmd_help(char *args);
 
@@ -138,8 +203,8 @@ static struct {
   { "info" ,    "Show information" , cmd_info },
   { "x" ,       "Scan Memory" , cmd_x },
   { "p" ,       "Evaluate the expression" , cmd_p },
-  // { "w" ,       "Set watchpoint" , cmd_w },
-  // { "d" ,       "Delete watchpoint" , cmd_d },
+  { "w" ,       "Set watchpoint" , cmd_w },
+  { "d" ,       "Delete watchpoint" , cmd_d },
 
 };
 
