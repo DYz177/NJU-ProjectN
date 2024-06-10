@@ -14,15 +14,24 @@
 ***************************************************************************************/
 
 #include <isa.h>
+#include "../local-include/reg.h"
+
+#define IRQ_TIMER 0x8000000000000007 
 
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
-  /* TODO: Trigger an interrupt/exception with ``NO''.
-   * Then return the address of the interrupt/exception vector.
-   */
+  cpu.csr[CSR_MEPC].val = epc;
+  cpu.csr[CSR_MCAUSE].val = NO;
+  cpu.csr[CSR_MSTATUS].status.MPIE = cpu.csr[CSR_MSTATUS].status.MIE;
+  cpu.csr[CSR_MSTATUS].status.MIE = 0;
 
-  return 0;
+  return cpu.csr[CSR_MTVEC].val;
 }
 
 word_t isa_query_intr() {
+  /* Query clock interrupt. */
+  if (cpu.INTR && (cpu.csr[CSR_MSTATUS].status.MIE)) {
+    cpu.INTR = false;
+    return IRQ_TIMER;
+  }
   return INTR_EMPTY;
 }
